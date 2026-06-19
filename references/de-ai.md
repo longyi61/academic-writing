@@ -1,61 +1,189 @@
 # Stripping AI tells from journal prose
 
-Load this when the user wants to **de-AI / humanize / de-slop** academic text — "make this sound less like ChatGPT," "remove the AI tone," "this reads like it was generated." The goal is the same prose the rest of this skill describes: precise, economical, confidently authored. This file is the diagnostic checklist for the specific patterns that mark a draft as machine-written.
+Load this when the user wants to **de-AI / humanize / de-slop** academic text, or when the main skill needs the mandatory final de-AI gate. The goal is not to make the paper casual. The goal is the same voice the rest of the skill describes: precise, economical, confidently authored, and free of generic machine fluency.
 
-## What "de-AI" means for a journal paper — and what it does not
+This reference adapts the `blader/humanizer` pattern catalog and audit loop to OM/MS journal prose. Use the pattern coverage from humanizer, but apply the journal-specific overrides below.
 
-For a blog post, de-AI'ing means adding voice: opinions, humor, first-person, a little mess. **Do not do that here.** A journal paper's "human" signal is not personality — it is a competent author making exact claims, naming mechanisms, and explaining intuition. Removing AI slop from a paper means tightening toward that authorial voice, not loosening toward conversational voice. So: no "I genuinely think," no rhetorical questions for effect, no jokes, no tangents. The fix for sloppy AI prose in this genre is always *more precise and more confident*, never *more casual*.
+## What de-AI means for a journal paper
 
-## The tells that matter most in academic writing
+For a blog post, humanizing may mean adding opinions, humor, first person, and looser rhythm. Do not do that here. A journal paper's human signal is a competent author making exact claims, naming mechanisms, and explaining intuition.
 
-Each is the AI pattern, why it reads as machine-written, and the journal fix. Several are already covered in SKILL.md (conciseness, hedging, triads, define-and-reuse, the "not X but Y" test) — this file adds the ones the core file doesn't name and sharpens the rest into a scan.
+So:
 
-1. **Inflated significance.** "plays a crucial/pivotal role," "underscores the importance of," "has far-reaching implications," "in an increasingly complex and dynamic landscape," "is a critical area of growing interest." LLMs puff up importance instead of stating a claim. → State the specific thing: "The holding cost determines the order quantity" beats "The holding cost plays a pivotal role in shaping inventory outcomes."
+- Tighten toward precision, not personality.
+- Use only words, phrases, and sentence structures that fit published Management Science / M&SOM prose or the user's supplied source passages.
+- Preserve claims, notation, citations, numbers, and result directions.
+- Do not invent mechanisms, statistics, examples, citations, or institutional facts to make the paragraph sound complete.
+- If the text is vague because the content is missing, flag the missing content instead of smoothing it into fluent filler.
+- Keep first-person plural "we" for author actions; never switch into first-person singular or conversational blog voice.
 
-2. **Participial tails of fake depth.** A clause ending in "…, highlighting the importance of …", "…, reflecting the complex interplay between …", "…, thereby contributing to …", "…, underscoring the need for …". These "-ing" tags add the *shape* of analysis without content. → Cut the tail, or turn it into a real clause that says something: "…, which raises the retailer's margin by 4%."
+## Humanizer audit loop, adapted
 
-3. **AI vocabulary.** *delve, intricate, interplay, tapestry, leverage* (as filler), *underscore, pivotal, crucial, nuanced* (as filler), *robust* (as a vague compliment), *holistic, multifaceted, realm, landscape* (abstract), *navigate* (figurative), *foster, garner, showcase, testament, vibrant*. They co-occur and spike in post-2023 text. → Replace each with the specific word the sentence needs. "robust to misspecification" is fine (technical); "a robust framework" is filler.
+Run this loop before returning any output under the skill:
 
-4. **Copula avoidance.** "serves as," "stands as," "acts as," "represents," "constitutes" where "is" would do. → "The critical ratio is the cutoff" beats "The critical ratio serves as the cutoff." (Keep "represents" only when it means a genuine mapping, e.g., "Z represents the indicator.")
+1. **Scan** the full response, including notes and alternatives, for the pattern families below.
+2. **Rewrite, do not merely delete.** Preserve the original coverage and substantive meaning. Replace AI-coded phrasing with exact claims, mechanisms, citations, or conditions.
+3. **Ask:** "What in this still reads as machine-written?" Identify the remaining tells briefly for yourself.
+4. **Revise again.** Return only the final cleaned version unless the user asks to see the audit.
+5. **Check preservation.** Confirm that the cleaned version has not changed the result, notation, caveat, magnitude, citation, or comparison.
 
-5. **Vague attribution / weasel words.** "Studies have shown," "It is widely believed," "Researchers argue," "Prior work suggests" with no citation, or "several papers" when you cite two. Deadly in a literature review. → Name the source and the finding: "Cui et al. (2020) show that removing a high-quality delivery option cut sales."
+## Pattern families to remove
 
-6. **Persuasive-authority tropes.** "The real question is," "At its core," "Fundamentally," "More importantly," "It is worth emphasizing that," "What truly matters is." These pretend to cut to a deeper truth, then restate an ordinary point. → Delete the windup and make the point.
+### 1. Significance inflation
 
-7. **Generic upbeat closings.** "opens exciting new avenues," "paves the way for," "holds great promise for," "represents a significant step forward." → End on a concrete claim or a specific open question. (Calibration: applied/empirical papers in these journals tolerate *one* mildly elevated closing line — "win the last mile of e-commerce" — but it reads as AI the moment it's generic or stacked. One earned sentence, never a paragraph of uplift.)
+**Watch for:** "plays a crucial/pivotal role," "underscores the importance of," "has far-reaching implications," "in an increasingly complex and dynamic landscape," "represents a significant step," "is a critical area of growing interest."
 
-8. **Stacked hedging.** "may potentially," "could possibly suggest," "it might be argued that perhaps." → One hedge, placed surgically (see SKILL.md "Confident on results, calibrated on interpretation"). "may affect," not "may potentially affect."
+**Fix:** State the specific claim. "The holding cost determines the order quantity" beats "The holding cost plays a pivotal role in shaping inventory outcomes."
 
-9. **Elegant variation.** Naming one construct three ways ("the order quantity"… "the procurement level"… "the stocking decision"). AI's repetition penalty drives this. → Pick one term, repeat it. (This is the SKILL.md "define, then reuse" rule; AI text violates it constantly.)
+### 2. Superficial "-ing" analysis
 
-10. **Rule of three as cadence.** "efficient, scalable, and robust," "practical value, generalizability, and effectiveness." → Use the items the argument needs — often one or two. (SKILL.md "Avoid these tells.")
+**Watch for:** clauses ending in "highlighting," "underscoring," "reflecting," "showcasing," "contributing to," "emphasizing," "ensuring," "fostering."
 
-11. **Filler openers.** "It is important to note that," "It should be emphasized that," "In order to," "Due to the fact that," "It is widely recognized that." → Cut or compress (SKILL.md "Cut to the bone"). Distinguish from *functional* signposting ("Note that [a real fact]," "Recall that (7)…"), which is correct here — see the don't-overcorrect list.
+**Fix:** Cut the tail, or replace it with a real causal or quantitative statement: "which raises the retailer's margin by 4%."
 
-12. **Formatting tells.** Title-Case Section Headings In The Body, **bold phrases** sprinkled mid-paragraph, inline-header bullet lists ("- **Performance:** the system is faster"), emojis, and chatbot residue ("Here is an overview…," "I hope this helps," "Certainly!"). → Sentence-case headings, prose instead of bolded lists, no emojis, no correspondence artifacts. (Note: these journals *do* title-case actual section titles — that's house style, not a tell. The tell is title-case and boldface used decoratively inside the text.)
+### 3. Promotional language
 
-## Don't overcorrect — where journal style diverges from generic de-AI
+**Watch for:** "groundbreaking," "powerful," "rich," "fascinating," "vibrant," "seamless," "robust framework," "valuable insights," "breathtaking," "must-visit," "renowned."
 
-A naive de-AI pass (or running a general humanizer on a paper) breaks these. Leave them alone:
+**Fix:** Let the model, estimate, theorem, or example carry the point. In results narration, numbers and conditions persuade better than adjectives.
 
-- **Em-dashes are fine.** These journals use them freely; do not hunt them. Only fix a dash that should be a period because the sentence is doing too much.
-- **Hyphenated compound modifiers are correct.** "high-quality logistics," "data-driven decision," "first-difference estimator," "two-sided market" — keep the hyphens. Generic humanizers strip them; that is wrong here.
-- **Functional signposting stays.** "Note that," "Recall that," "We organize the paper as follows," "In this section we…" earn their place. Cut only contentless throat-clearing. (See SKILL.md.)
-- **"Not X but Y" can stay when load-bearing.** Banned only as empty rhythm; legitimate when X is a real prevailing view the paper overturns. (See SKILL.md.)
-- **First-person *plural* "we" stays; do not switch to "I" or to casual voice.** The humanizer instinct to "add first-person honesty" is wrong for this genre.
-- **Calibrated contribution adjectives stay in the contribution paragraph.** "we are the first to," "a novel form of" are house style there; strip such adjectives only when scattered through the body. (See SKILL.md "The voice.")
-- **Curly vs. straight quotes don't matter** in a LaTeX/typeset paper; ignore.
+### 4. AI vocabulary clusters
 
-## The audit loop
+**Watch for:** *delve, intricate, interplay, tapestry, leverage* as filler, *underscore, pivotal, crucial, nuanced* as filler, *holistic, multifaceted, realm, landscape, navigate, foster, garner, showcase, testament, vibrant*.
 
-After a de-AI rewrite, run one explicit pass borrowed from the humanizer method:
+**Fix:** Replace each with the concrete word the sentence needs. Keep technical uses: "robust to misspecification" is fine; "a robust framework" is usually filler.
 
-1. Ask yourself plainly: **"What in this still reads as machine-written?"** List the remaining tells in a line or two.
-2. Revise once more to kill them.
-3. Read the result against the target: does it sound like a confident author stating exact claims, or like fluent filler? If filler, the problem is usually missing content, not bad wording — say what's actually true instead of smoothing the vagueness.
+### 5. Copula avoidance
 
-Report the two or three highest-value changes, as the main workflow prescribes.
+**Watch for:** "serves as," "stands as," "acts as," "boasts," "features," "represents," "constitutes" where "is" or "has" would do.
+
+**Fix:** Use the plain verb unless the stronger verb has a real technical meaning. Keep "represents" only for genuine mappings, as in "Z represents the indicator."
+
+### 6. Vague attribution and source fog
+
+**Watch for:** "Studies have shown," "Experts argue," "It is widely believed," "Prior work suggests," "industry reports," "observers note," "several papers" when the sentence names no source or only cites two.
+
+**Fix:** Name the paper and the finding: "Cui et al. (2020) show that removing a high-quality delivery option cut sales." If no source is available, either remove the claim or mark it as missing.
+
+### 7. Notability and name-dropping
+
+**Watch for:** lists of outlets, firms, awards, or media mentions used to imply importance without explaining the relevance.
+
+**Fix:** Keep only the source or example that does analytical work. A named firm belongs in the paper when it grounds the phenomenon, assumption, or external validity, not when it merely decorates the motivation.
+
+### 8. Speculative gap-filling
+
+**Watch for:** "while specific details are limited," "based on available information," "it appears that," "likely," "it is believed that," followed by plausible filler.
+
+**Fix:** Say what is known, cite it if possible, or flag the missing fact. Do not turn uncertainty into invented background.
+
+### 9. Negative parallelism as filler
+
+**Watch for:** "not only X but also Y," "not merely X; it is Y," "not just about X, but about Y," especially when X is a strawman.
+
+**Fix:** State the point directly. Keep the construction only when X is a real prevailing view the paper overturns and the contrast is the contribution.
+
+### 10. Rule of three
+
+**Watch for:** triads that exist for rhythm: "efficient, scalable, and robust"; "practical, generalizable, and effective"; "innovation, insight, and impact."
+
+**Fix:** Use the number of items the argument actually needs, often one or two.
+
+### 11. Elegant variation
+
+**Watch for:** synonym cycling for one construct: "order quantity," "procurement level," "stocking decision"; "platform," "marketplace," "intermediary" when these are not distinct.
+
+**Fix:** Choose one term and repeat it. In technical prose, repetition is clarity.
+
+### 12. False ranges
+
+**Watch for:** "from X to Y" lists where X and Y are not endpoints on a meaningful scale: "from pricing to sustainability to algorithm design."
+
+**Fix:** List the actual domains or state the unifying claim.
+
+### 13. Filler openers and throat-clearing
+
+**Watch for:** "It is important to note that," "It should be emphasized that," "In order to," "Due to the fact that," "At this point in time," "In today's competitive environment," "Over the past decades."
+
+**Fix:** Cut or compress. Keep functional signposting only when it points to something specific: "Note that (7) binds when..." or "Recall that demand is censored."
+
+### 14. Persuasive-authority tropes
+
+**Watch for:** "The real question is," "At its core," "Fundamentally," "What truly matters is," "The heart of the matter."
+
+**Fix:** Delete the windup and state the claim.
+
+### 15. Stacked hedging
+
+**Watch for:** "may potentially," "could possibly suggest," "it might be argued that perhaps," "appears to possibly."
+
+**Fix:** Use one hedge, placed where uncertainty is real. Proven propositions and estimated coefficients are asserted; causal reach and managerial extrapolation may be qualified.
+
+### 16. Generic upbeat conclusions
+
+**Watch for:** "opens exciting new avenues," "paves the way for," "holds great promise," "the future looks bright," "a major step forward."
+
+**Fix:** End on a concrete claim, a boundary condition, or a specific open question. One earned applied closing line can stay; a paragraph of uplift cannot.
+
+### 17. Formulaic challenge/future sections
+
+**Watch for:** "Despite these challenges..." followed by generic resilience or future-promise language.
+
+**Fix:** Name the actual limitation, identification threat, modeling simplification, or external-validity boundary.
+
+### 18. Passive voice and subjectless fragments
+
+**Watch for:** "The problem is solved by..." when the actor matters, and fragments such as "No further assumptions needed" or "No manual tuning required."
+
+**Fix:** Prefer active voice when it clarifies agency: "We solve the model by backward induction." Passive is fine when the actor is irrelevant: "The proofs are relegated to the appendix."
+
+### 19. Formatting tells
+
+**Watch for:** decorative boldface, inline-header bullets ("- **Mechanism:** ..."), emojis, title-case mini-headings inside prose, one-line headings that restate themselves, and chatbot residue such as "Here is an overview," "Certainly," "I hope this helps," "Would you like me to..."
+
+**Fix:** Use prose. Keep real journal section headings in the target style, but avoid decorative formatting in the body.
+
+### 20. Diff-anchored or revision-anchored wording
+
+**Watch for:** "This paragraph was revised to," "This section now," "the previous version," unless the user asked for a change log.
+
+**Fix:** Describe the idea as it stands. In the explanation note, say only the two or three editing moves that matter.
+
+### 21. Manufactured punchlines and aphorism formulas
+
+**Watch for:** stacked short fragments or reusable profundity: "The old rules were gone"; "X is the language of Y"; "the currency of"; "not a tool but a mirror"; "efficiency becomes a trap."
+
+**Fix:** Replace the formula with the concrete mechanism or claim. A short sentence is fine; a string of dramatic closers is not.
+
+### 22. Fake-candid rhetorical openers
+
+**Watch for:** "Honestly?", "Look," "Here's the thing," "Real talk," "Let's be honest," especially as standalone hooks.
+
+**Fix:** State the point directly. This register does not belong in journal prose.
+
+## Don't overcorrect for journal prose
+
+A generic humanizer can damage academic writing. Preserve these unless they are part of a larger cluster of filler:
+
+- **Em dashes can stay.** OM/MS journals use them. Fix only dashes that hide a run-on sentence or fake drama.
+- **Hyphenated compound modifiers are correct.** Keep "high-quality logistics," "data-driven decision," "first-difference estimator," "two-sided market," and similar attributive compounds.
+- **Curly quotes do not matter** in LaTeX or typeset prose. Ignore them unless the user asks for plain-text normalization.
+- **Functional signposting stays.** "Note that," "Recall that," "We organize the paper as follows," and "In this section we examine..." are fine when they orient the reader to a real object.
+- **First-person plural stays.** "We develop," "we show," and "we find" are standard. Do not replace them with passive voice or casual first person.
+- **Contribution adjectives can stay in the contribution paragraph.** "We are the first to," "a novel form of," and "important contributions" are normal there. Strip them when they leak into results narration or generic body prose.
+- **Formal vocabulary is not itself an AI tell.** Remove specific filler words and clusters, not every academic word.
+
+## Quick de-AI checklist
+
+Before returning, ask:
+
+- Does every sentence make a concrete claim, define an object, explain a mechanism, or guide the reader?
+- Did I replace vague significance with exact model behavior, data, conditions, or citations?
+- Did I remove fake-depth "-ing" tails and generic uplift?
+- Did I replace generic academic phrasing with Management Science / M&SOM-attested wording and sentence frames?
+- Did I preserve the user's notation, numbers, citations, result directions, and caveats?
+- Did I avoid making the prose casual, chatty, or personality-driven?
 
 ## Attribution
 
-The pattern catalog adapts [blader/humanizer](https://github.com/blader/humanizer) (MIT), itself based on [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (WikiProject AI Cleanup). The academic-register calibration and the don't-overcorrect list are specific to this skill.
+The pattern catalog adapts [blader/humanizer](https://github.com/blader/humanizer) (MIT), itself based on [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (WikiProject AI Cleanup). The academic-register calibration and the don't-overcorrect rules are specific to this skill.

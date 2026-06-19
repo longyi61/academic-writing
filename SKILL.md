@@ -1,36 +1,48 @@
 ---
 name: utd-journal-writing
 description: >-
-  Write or revise academic prose in the style of top operations and management
-  journals — Management Science, M&SOM, and Production and Operations Management
-  (the UTD-24 journals) — using University of North Carolina Writing Center
-  principles for flow, conciseness, paragraphs, and transitions. Use this skill
-  whenever the user is drafting or polishing any part of an operations,
-  management-science, or analytical-economics paper (introduction, model setup,
-  results narration, intuition paragraphs, literature positioning, discussion),
-  or asks to make academic text "read like Management Science / MSOM / POM,"
-  tighten wordy prose, improve flow between sentences, or 润色 / 写 a paragraph for
-  an OM/MS submission. Also use it to **de-AI / humanize / de-slop** an academic
-  draft — strip the tells that make writing read as ChatGPT-generated and tighten
-  it toward a precise, confident authorial voice. Trigger even when the user just
-  pastes a rough paragraph and asks to "make this better," "make it sound less
-  AI," or "remove the AI tone" in an academic-paper context.
+  Write, revise, tighten, or de-AI academic prose for operations, management
+  science, and analytical-economics papers targeting Management Science, M&SOM,
+  Production and Operations Management, or similar UTD-style journals. Use for
+  introductions, abstracts, model setup, results narration, intuition paragraphs,
+  literature positioning, discussions, contribution statements, and responses to
+  prompts such as "make this read like Management Science," "tighten the flow,"
+  "improve this paragraph," "润色," "写一段," "make this less AI,"
+  "humanize," or "de-slop" in an academic-paper context.
 ---
 
 # Writing for UTD operations/management journals
 
 Top OM and management-science journals reward prose that is precise, economical, and easy to follow on the first read. A reviewer skims fast and is looking for reasons to stop. Good writing removes those reasons: each sentence lands one idea, each idea connects visibly to the last, and nothing makes the reader reread.
 
-This skill produces and repairs that kind of prose. It works on any chunk of text the user gives you — a sentence, a paragraph, a section. Two entry points:
+This skill produces and repairs that kind of prose. It works on any chunk of text the user gives you: a sentence, a paragraph, or a section. Use two entry points:
 
-- **Revise**: the user pastes their own draft. Diagnose what breaks flow or wastes words, then rewrite. Preserve their claims and their notation exactly; change only how the prose carries them.
-- **Draft**: the user gives notes, bullets, or an outline. Build paragraphs that argue, not lists that report.
+- **Revise**: diagnose what breaks flow or wastes words, then rewrite. Preserve the user's claims, notation, variables, citations, numbers, and result directions exactly unless the user asks for substantive editing.
+- **Draft**: turn notes, bullets, or an outline into paragraphs that argue rather than report. Do not invent results, mechanisms, citations, numbers, institutional facts, or notation to make the paragraph sound complete. Surface missing information instead.
 
-**De-AI is always on, in both modes — not a separate service.** Every rewrite and every drafted paragraph must come out free of the tells that mark text as machine-written. This is a standing constraint on everything the skill produces, applied by default whether the user mentions AI tone or not. `references/de-ai.md` is the catalog of those tells; the most common ones (inflated significance, participial "-ing" tails, AI vocabulary, copula avoidance, rule-of-three cadence, vague attribution) should never survive into your output. When the user *explicitly* asks to "de-AI / humanize / de-slop," stripping these tells becomes the whole task and you should read the full reference; otherwise it is a quality gate on the revise/draft you were already doing. Either way the standard is identical. Critical for this genre: de-AI'ing means tightening toward a precise, confident author — naming mechanisms, stating exact claims — **never** loosening toward casual, first-person, opinionated blog voice. A general humanizer overcorrects here (hunting em-dashes, de-hyphenating compound modifiers, banning all signposting); the reference says exactly what to leave alone.
+Follow the user's output language. If the prompt is Chinese but asks for English journal prose, write the prose in English and keep the brief explanation in the user's language unless they ask otherwise.
 
-Default to a clean rewrite plus a short note on the two or three changes that mattered most, so the user learns the pattern rather than just taking the output.
+**Use only the Management Science / M&SOM register.** Treat published Management Science and M&SOM prose as the closed style target for words, phrases, and sentence structures. When writing or revising, use conservative wording and sentence frames that are common in those journals or appear in the user's supplied source passages. Prefer a smaller, repeated vocabulary over elegant variation. Do not introduce slogans, metaphors, fashionable phrases, conversational turns, or generic academic flourishes just because they sound polished. If exact corpus attestation matters and no source passage is available, say that exact attestation requires a supplied corpus or examples; otherwise approximate with the safest attested journal frames:
 
-When the text is an **introduction** — or the user is drafting, restructuring, or diagnosing one — read `references/introduction.md` first. These journals follow a stable six-move template for introductions (phenomenon → puzzle → earned questions → model preview → directional findings preview → novelty quarantined to the literature), and the prose guidance below sits on top of that structure. The reference covers structure; this file covers the sentences.
+- "We develop/analyze/study/consider/show/find..."
+- "This result shows/suggests/implies..."
+- "The intuition is as follows."
+- "The key tradeoff is..."
+- "Under [condition], [decision/result] increases/decreases in [parameter]."
+- "In contrast, when [condition], ..."
+- "This effect is driven by..."
+- "Proposition [n] establishes..."
+- "Our analysis contributes to..."
+
+**De-AI is always on and applies to every output pass.** Do not treat de-AI as a separate optional service or as a check only on the main rewritten paragraph. Run it on the passage, the brief explanation, ambiguity notes, and any alternative phrasings before returning them. Every sentence you output under this skill must avoid machine-written tells, especially inflated significance, fake-depth participial tails, filler AI vocabulary, copula avoidance, rule-of-three cadence, vague attribution, and decorative bold/list formatting. When the user explicitly asks to de-AI, humanize, or de-slop academic text, read `references/de-ai.md` first; otherwise use it as a mandatory final gate. In this genre, humanizing means tightening toward a precise, confident authorial voice, never loosening toward casual blog voice.
+
+When working on an **introduction**, read `references/introduction.md` first. These journals follow a stable six-move template: phenomenon → puzzle → earned research questions → model preview → directional findings preview → novelty quarantined to the literature. The reference governs structure; this file governs sentence and paragraph craft.
+
+Default output:
+
+1. Give the clean rewritten or drafted passage first.
+2. Then add a brief note naming the two or three highest-value changes.
+3. If content is missing or a claim is ambiguous, flag it after the rewrite rather than silently filling the gap.
 
 ## The voice
 
@@ -117,8 +129,16 @@ These are the tells that surface most in OM/MS drafts. For a fuller catalog — 
 
 ## Workflow
 
-**Revising:** Read the passage for the one or two things that hurt it most — usually flow (sentences opening cold) and wordiness. Rewrite the whole passage clean. Keep the author's notation, claims, and structure; change the prose. Then tell the user the key moves you made and why, in two or three lines, so the lesson transfers.
+**Revising:** Read the passage for the one or two things that hurt it most, usually flow and wordiness. Rewrite the whole passage clean. Keep the author's notation, claims, citations, numbers, and structure; change the prose. Then tell the user the key moves you made and why, in two or three lines.
 
-**Drafting:** Turn each notes-cluster into a claim-first paragraph (claim → support → intuition → link). Don't pad to hit a length; if the notes only support two sentences, write two good ones. Surface anything the notes leave genuinely ambiguous rather than inventing a result.
+**Drafting:** Turn each notes-cluster into a claim-first paragraph (claim → support → intuition → link). Don't pad to hit a length; if the notes only support two sentences, write two good ones. Mark missing premises, unnamed mechanisms, unclear boundary conditions, and unsupported contribution claims instead of smoothing over them.
 
-Read your output once more before returning it, every time, checking three things: sentences that open with new information (fix the flow), any word that could be cut without loss (tighten), and the machine-written tells in `references/de-ai.md` — inflated significance, "-ing" tails, AI vocabulary, copula avoidance, vague attribution. Ask yourself plainly, "what here still reads as AI-generated?" and revise it out. This de-AI pass runs on drafts and revisions alike; it is not optional. Those passes catch most of what separates a draft from publishable prose.
+Before returning anything to the user, run one final de-AI pass over the full response, not just the rewritten passage:
+
+1. Fix sentences that open with new information instead of known information.
+2. Cut any word or clause that does not carry content.
+3. Remove remaining AI tells: inflated significance, fake-depth "-ing" tails, filler AI vocabulary, copula avoidance, vague attribution, and triads used only for cadence.
+4. Replace any phrase or sentence shape that sounds generic-academic rather than Management Science / M&SOM-attested.
+5. Check that the passage still preserves the user's substantive meaning.
+
+Those passes catch most of what separates a draft from publishable prose.
