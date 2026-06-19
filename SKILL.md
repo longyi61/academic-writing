@@ -9,10 +9,12 @@ description: >-
   management-science, or analytical-economics paper (introduction, model setup,
   results narration, intuition paragraphs, literature positioning, discussion),
   or asks to make academic text "read like Management Science / MSOM / POM,"
-  tighten wordy prose, improve flow between sentences, fix academic writing that
-  sounds AI-generated or clunky, or 润色 / 写 a paragraph for an OM/MS submission.
-  Trigger even when the user just pastes a rough paragraph and asks to "make this
-  better" in an academic-paper context.
+  tighten wordy prose, improve flow between sentences, or 润色 / 写 a paragraph for
+  an OM/MS submission. Also use it to **de-AI / humanize / de-slop** an academic
+  draft — strip the tells that make writing read as ChatGPT-generated and tighten
+  it toward a precise, confident authorial voice. Trigger even when the user just
+  pastes a rough paragraph and asks to "make this better," "make it sound less
+  AI," or "remove the AI tone" in an academic-paper context.
 ---
 
 # Writing for UTD operations/management journals
@@ -23,6 +25,7 @@ This skill produces and repairs that kind of prose. It works on any chunk of tex
 
 - **Revise**: the user pastes their own draft. Diagnose what breaks flow or wastes words, then rewrite. Preserve their claims and their notation exactly; change only how the prose carries them.
 - **Draft**: the user gives notes, bullets, or an outline. Build paragraphs that argue, not lists that report.
+- **De-AI**: the user wants the text to stop sounding machine-written ("de-AI," "humanize," "de-slop," "reads like ChatGPT," "remove the AI tone"). Read `references/de-ai.md` and run the de-AI pass. Critical for this genre: "humanizing" a paper means tightening toward a precise, confident author — naming mechanisms, stating exact claims — **not** loosening toward casual, first-person, opinionated blog voice. A general humanizer will overcorrect here (hunting em-dashes, de-hyphenating, banning all signposting); the reference says exactly what to leave alone.
 
 Default to a clean rewrite plus a short note on the two or three changes that mattered most, so the user learns the pattern rather than just taking the output.
 
@@ -108,6 +111,8 @@ These mark writing as unpolished or machine-generated, and reviewers notice:
 - **Three-item lists as a rhythm habit**: triads everywhere ("efficient, scalable, and robust") read as cadence-filling. Use the items the argument actually needs.
 - **Throat-clearing openers**: "In today's competitive environment," "Over the past decades." Open on the actual point.
 - **Vague "this" / "it"** with no referent. Always anchor with a noun.
+
+These are the tells that surface most in OM/MS drafts. For a fuller catalog — inflated significance, participial "-ing" tails, AI vocabulary, copula avoidance, vague attribution, and the rules a generic de-AI pass gets *wrong* for this genre — see `references/de-ai.md`. Read it whenever the task is explicitly to strip AI tone, not just polish.
 
 ## Workflow
 

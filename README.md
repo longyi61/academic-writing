@@ -4,10 +4,11 @@ A [Claude Code](https://claude.com/claude-code) skill for writing and revising a
 
 ## What it does
 
-The skill produces and repairs journal-style prose. It works on any chunk of text — a sentence, a paragraph, or a whole section — in two modes:
+The skill produces and repairs journal-style prose. It works on any chunk of text — a sentence, a paragraph, or a whole section — in three modes:
 
 - **Revise** — paste a rough draft; it rewrites into clean UTD-journal prose and tells you the key moves it made.
 - **Draft** — give it notes or an outline; it builds claim-first paragraphs that argue rather than report.
+- **De-AI** — strip the tells that make a draft read as ChatGPT-generated, calibrated to formal journal register. "Humanizing" a paper here means tightening toward a precise, confident author, not loosening toward casual blog voice — so it catches the AI slop while leaving alone the things a general humanizer breaks (em-dashes, hyphenated modifiers, functional signposting).
 
 It covers sentence- and paragraph-level mechanics (old-to-new flow, conciseness, transitions, paragraph unity, intuition paragraphs) and, for introductions, the six-move structural template these journals follow.
 
@@ -17,7 +18,8 @@ It covers sentence- and paragraph-level mechanics (old-to-new flow, conciseness,
 utd-journal-writing/
 ├── SKILL.md                    # the skill: voice, flow, paragraphs, conciseness, anti-patterns
 └── references/
-    └── introduction.md         # the six-move introduction template + craft moves
+    ├── introduction.md         # the six-move introduction template + craft moves
+    └── de-ai.md                # AI-tell catalog, calibrated to journal register
 ```
 
 `SKILL.md` governs the sentences; `references/introduction.md` loads when you're working on an introduction and governs the structure.
