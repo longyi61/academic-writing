@@ -4,11 +4,12 @@ A [Claude Code](https://claude.com/claude-code) skill for writing and revising a
 
 ## What it does
 
-The skill produces and repairs journal-style prose. It works on any chunk of text — a sentence, a paragraph, or a whole section — in three modes:
+The skill produces and repairs journal-style prose. It works on any chunk of text — a sentence, a paragraph, or a whole section — in two modes:
 
 - **Revise** — paste a rough draft; it rewrites into clean UTD-journal prose and tells you the key moves it made.
 - **Draft** — give it notes or an outline; it builds claim-first paragraphs that argue rather than report.
-- **De-AI** — strip the tells that make a draft read as ChatGPT-generated, calibrated to formal journal register. "Humanizing" a paper here means tightening toward a precise, confident author, not loosening toward casual blog voice — so it catches the AI slop while leaving alone the things a general humanizer breaks (em-dashes, hyphenated modifiers, functional signposting).
+
+**De-AI runs by default in both modes.** Every revision and every drafted paragraph is checked against a catalog of AI tells (inflated significance, participial "-ing" tails, AI vocabulary, copula avoidance, vague attribution) and tightened toward a precise, confident authorial voice. This is a standing quality gate, not a separate command — though you can also ask explicitly to "de-AI / humanize" a draft, in which case stripping those tells becomes the whole job. The calibration is built for formal journal register, so it leaves alone the things a general humanizer breaks (em-dashes, hyphenated modifiers, functional signposting).
 
 It covers sentence- and paragraph-level mechanics (old-to-new flow, conciseness, transitions, paragraph unity, intuition paragraphs) and, for introductions, the six-move structural template these journals follow.
 
